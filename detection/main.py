@@ -3,12 +3,12 @@ import numpy as np
 from PIL import Image as PILImage
 from .util import read_license_plate, upscale_license_plate
 from .visualizeimg import image_visualization
-
+from .models.model import VehicleModel
 vehicles = [2, 3, 5, 7]
 
 # Load models
-coco_model = YOLO("../models/yolov8n.pt", task="detect")
-license_plate_detector = YOLO("../models/best.pt")
+coco_model = YOLO("./weights/yolov8n.pt", task="detect")
+license_plate_detector = YOLO("./weights/best.pt")
 
 
 def detect_license_plate(image):
@@ -31,7 +31,7 @@ def detect_license_plate(image):
     return x1, y1, x2, y2, score, class_id
 
 
-def validate_number_plate(number_plate):
+def validate_number_plate_and_emission(number_plate):
     """
     Validates a given number plate.
 
@@ -41,8 +41,13 @@ def validate_number_plate(number_plate):
     Returns:
         True if the number plate is valid, otherwise False.
     """
-    pass
-
+    try:
+        vehicle = VehicleModel.get(VehicleModel.number_plate == number_plate)
+        print(vehicle,"Vehicle found")
+        return vehicle.emission_done
+    except VehicleModel.DoesNotExist:
+        print("Vehicle not found")
+        return None
 
 def recognize_number_plate_and_validate(image):
     """
@@ -75,16 +80,16 @@ def recognize_number_plate_and_validate(image):
                 "text_score": text_score,
             },
         }
-
+        emission = validate_number_plate_and_emission(number_plate)
         if number_plate is not None:
-            return image_visualization(image, res)
-        #     # # Validate the license plate number
-        #     # if validate_number_plate(number_plate):
-        #     #     return number_plate
-        #     # else:
-        #     #     return "Invalid number plate"
-        # else:
-        #     return "Number plate not recognized"
-
-        # "License plate not detected"
-    return image, image
+            if emission is not None:
+                if emission:
+                    print("Here")
+                    image_pil, image_with_bbox = image_visualization(image, res)
+                    return image_pil, image_with_bbox, "Emission test done"
+                else:
+                    return image, image ,"Emission test not done"
+            return image, image, "Vehicle not found"
+        else:
+            return image, image, "Number plate not recognized"
+    return image, image, "License plate not detected" 

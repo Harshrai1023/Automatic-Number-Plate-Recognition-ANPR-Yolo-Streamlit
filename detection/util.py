@@ -12,7 +12,7 @@ print('device:', device)
 model_scale = "4" #@param ["2", "4", "8"] {allow-input: false}
 
 model = RealESRGAN(device, scale=int(model_scale))
-model.load_weights(f'./models/RealESRGAN_x4.pth')
+model.load_weights(f'./weights/RealESRGAN_x4.pth')
 
 reader = easyocr.Reader(["en"], gpu=True)
 
@@ -225,15 +225,15 @@ def upscale_license_plate(image, bbox):
     # Save the upscaled image and normal image
     image = cv2.resize(np.array(image), (0,0), fx=4, fy=4) 
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    cv2.imwrite("crop.png", image)
-    sr_image.save("upscaled.png")
+    cv2.imwrite("./detection/images/crop.png", image)
+    sr_image.save("./detection/images/upscaled.png")
 
     # Convert the upscaled image to binary using a threshold value
     threshold_value = 120
     binary_image = sr_image.convert("L").point(lambda p: 255 if p < threshold_value else 0)
 
     # Save the binary image
-    binary_image.save("upscaled_binary.png")
+    binary_image.save("./detection/images/upscaled_binary.png")
 
     # Print a message indicating that the process is finished
     print(f'Finished! Image saved')

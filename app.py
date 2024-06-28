@@ -17,13 +17,13 @@ if uploaded_file is None:
 else:
     # Show a spinner while processing the image
     with st.spinner('Processing image...'):
-        image , gray_image = recognize_number_plate_and_validate(uploaded_file)
+        image , output_image, output_text = recognize_number_plate_and_validate(uploaded_file)
     
-    # Display the uploaded image and grayscale image side by side
+    # Display the uploaded image and output_image image side by side
     col1, col2 = st.columns([1, 1])
     
     with col1:
         st.image(image, caption="Uploaded Image", use_column_width=True)
     
     with col2:
-        st.image(gray_image, caption="Black & White Image", use_column_width=True)
+        st.image(output_image, caption=output_text, use_column_width=True)
