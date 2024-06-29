@@ -34,4 +34,4 @@ streamlit run app.py
 
 ## Dataset
 
-The dataset used for the training the YOLOv8 model can be downloaded from the Roboflow website [here](https://universe.roboflow.com/roboflow-universe-projects/license-plate-recognition-rxg4e/dataset/4).
+The dataset used for the training the YOLOv8 model is License Plate Recognition Image Dataset - resized640_aug3x-ACCURATE and can be downloaded from the Roboflow website [here](https://universe.roboflow.com/roboflow-universe-projects/license-plate-recognition-rxg4e/dataset/4).
