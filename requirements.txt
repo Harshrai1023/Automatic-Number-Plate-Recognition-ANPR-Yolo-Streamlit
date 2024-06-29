@@ -8,3 +8,4 @@ torchtext
 ultralytics
 easyocr
 streamlit
+peewee

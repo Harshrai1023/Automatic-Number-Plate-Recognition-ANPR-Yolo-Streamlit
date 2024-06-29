@@ -16,8 +16,10 @@ git clone https://github.com/harshrai1023/Automatic-Number-Plate-Recognition-ANP
 pip install -r requirements.txt
 ```
 
-3. The pre-trained YOLO weights file can be found in the `models` directory.
-
+3. The pre-trained YOLO weights file can be found in the `models` directory. Run the following before they can be used in the environment
+```bash
+pip install git+https://github.com/sberbank-ai/Real-ESRGAN.git
+```
 ## Usage
 
 1. Run the Streamlit app:
