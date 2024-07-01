@@ -23,7 +23,9 @@ else:
     col1, col2 = st.columns([1, 1])
     
     with col1:
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+        st.image(image, use_column_width=True)
+        st.markdown(f"<p style='text-align: center; font-size: 20px; font-weight: bold;'>Uploaded Image</p>", unsafe_allow_html=True)
     
     with col2:
-        st.image(output_image, caption=output_text, use_column_width=True)
+        st.image(output_image, use_column_width=True)
+        st.markdown(f"<p style='text-align: center; font-size: 20px; font-weight: bold;'>{output_text}</p>", unsafe_allow_html=True)

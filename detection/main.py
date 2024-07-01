@@ -86,9 +86,9 @@ def recognize_number_plate_and_validate(image):
                 if emission:
                     print("Here")
                     image_pil, image_with_bbox = image_visualization(image, res)
-                    return image_pil, image_with_bbox, "Emission test done"
+                    return image_pil, image_with_bbox, f"Number Plate:{number_plate}\nEmission test done"
                 else:
-                    return image, image ,"Emission test not done"
+                    return image, image ,f"Number Plate:{number_plate}\nEmission test not done"
             return image, image, "Vehicle not found"
         else:
             return image, image, "Number plate not recognized"
