@@ -191,15 +191,15 @@ def read_license_plate(license_plate_crop):
         text = ''.join(e for e in text if e.isalnum())
 
         # Print the detected text and its confidence score
-        print(text, score)
+        print("Utils file: " + text, score)
 
         # Check if the license plate text complies with the expected format
-        if license_complies_format(text):
+        isValid = license_complies_format(text)
+        if isValid:
             # Format the license plate text and return it along with the confidence score
-            return format_license(text), score
-
-    # If no valid license plate text is found, return None for both elements of the tuple
-    return None, None
+            return format_license(text), score, isValid
+        # If no valid license plate text is found, return None for both elements of the tuple
+        return text, score, isValid
 
 def upscale_license_plate(image, bbox):
     """

@@ -46,7 +46,7 @@ def validate_number_plate_and_emission(number_plate):
         print(vehicle,"Vehicle found")
         return vehicle.emission_done
     except VehicleModel.DoesNotExist:
-        print("Vehicle not found")
+        print("Vehicle not found in database for emission test")
         return None
 
 def recognize_number_plate_and_validate(image):
@@ -69,8 +69,8 @@ def recognize_number_plate_and_validate(image):
     if license_plate is not None:
         # Recognize the license plate number
         upscaled_image = upscale_license_plate(image_pil, license_plate[:4])
-        number_plate, text_score = read_license_plate(upscaled_image)
-        print(number_plate, text_score)
+        number_plate, text_score, isValid = read_license_plate(upscaled_image)
+        print("Main file: "+ number_plate, text_score)
         res = {
             "car": {"bbox": [1,1,1,1]},
             "license_plate": {
@@ -82,14 +82,13 @@ def recognize_number_plate_and_validate(image):
         }
         emission = validate_number_plate_and_emission(number_plate)
         if number_plate is not None:
-            if emission is not None:
-                if emission:
-                    print("Here")
-                    image_pil, image_with_bbox = image_visualization(image, res)
-                    return image_pil, image_with_bbox, f"Number Plate:{number_plate}\nEmission test done"
-                else:
-                    return image, image ,f"Number Plate:{number_plate}\nEmission test not done"
-            return image, image, "Vehicle not found"
+            image_pil, image_with_bbox = image_visualization(image, res)
+            if emission:
+                print("Here")
+                return image_pil, image_with_bbox, f"Number Plate:{number_plate}\nEmission test done"
+            else:
+                Validity = "Valid Number Plate" if isValid else "Invalid Number Plate"
+                return image_pil, image_with_bbox, f"Number Plate:{number_plate}\nEmission test not done {Validity}"
         else:
             return image, image, "Number plate not recognized"
     return image, image, "License plate not detected" 
